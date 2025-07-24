@@ -26,5 +26,9 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   open: false,
 });
+
+defineEmits<{
+  (e: "close"): void;
+}>();
 </script>
 <style></style>

@@ -11,19 +11,34 @@
         </tr>
       </thead>
       <tbody>
-        <!-- row 1 -->
-        <tr class="hover:bg-base-300">
-          <th>1</th>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr
+          v-for="(project, index) in projectsStore.projectList"
+          class="hover:bg-base-300"
+          :key="project.id"
+        >
+          <th>{{ index + 1 }}</th>
+          <td>{{ project.name }}</td>
+          <td>{{ project.tasks.length }}</td>
+          <td>
+            <progress
+              class="progress progress-primary w-56"
+              value="10"
+              max="100"
+            ></progress>
+            <button
+              class="btn btn-error"
+              @click="projectsStore.removeProject(project.id)"
+            >
+              Eliminar
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
     <InputModal
       :open="modalOpen"
       @close="modalOpen = false"
-      @value="onNewValue($event)"
+      @value="projectsStore.addProject($event)"
       title="'Añadir Proyecto'"
       subtitle="'Ingrese los datos para añadir nuevo proyecto'"
     />
@@ -64,12 +79,11 @@ import InputModal from "@/modules/common/components/InputModal.vue";
 import { ref } from "vue";
 import CustomModal from "@/modules/common/components/CustomModal.vue";
 import ModalIcon from "@/modules/common/icons/ModalIcon.vue";
+import { useProjectsStore } from "../store/projects.store.ts";
 
 const modalOpen = ref(false);
 const customModalOpen = ref(false);
 
-const onNewValue = (projectName: string) => {
-  console.log({ projectName });
-};
+const projectsStore = useProjectsStore();
 </script>
 <style lang=""></style>
