@@ -12,24 +12,25 @@
       </thead>
       <tbody>
         <tr
-          v-for="(project, index) in projectsStore.projectList"
+          v-for="(project, index) in projectsStore.projectsWithCompletion"
           class="hover:bg-base-300"
           :key="project.id"
         >
           <th>{{ index + 1 }}</th>
           <td>{{ project.name }}</td>
-          <td>{{ project.tasks.length }}</td>
+          <td>{{ project.taskCount }}</td>
           <td>
             <progress
-              class="progress progress-primary w-56"
-              value="10"
+              class="progress progress-primary w-56 mr-3"
+              :value="project.completion"
               max="100"
             ></progress>
+            {{ project.completion }}%
             <button
-              class="btn btn-error"
+              class="btn btn-circle btn-error p-1"
               @click="projectsStore.removeProject(project.id)"
             >
-              Eliminar
+              <TrashIcon />
             </button>
           </td>
         </tr>
@@ -80,6 +81,7 @@ import { ref } from "vue";
 import CustomModal from "@/modules/common/components/CustomModal.vue";
 import ModalIcon from "@/modules/common/icons/ModalIcon.vue";
 import { useProjectsStore } from "../store/projects.store.ts";
+import TrashIcon from "@/modules/common/icons/TrashIcon.vue";
 
 const modalOpen = ref(false);
 const customModalOpen = ref(false);
